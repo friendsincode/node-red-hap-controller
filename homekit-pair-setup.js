@@ -8,7 +8,7 @@ module.exports = function (RED) {
     this.PairingDataDB = RED.nodes.getNode(config.pairingData);
     // Handle incoming messages
     node.on('input', async function (msg) {
-      service = msg.payload;      
+      service = msg.payload;
       try {
         //format pin
         let pin = formatString(service.pin);
@@ -16,18 +16,23 @@ module.exports = function (RED) {
         const pairMethod = await discovery.getPairMethod(service);
         const client = new HttpClient(service.id, service.address, service.port);
         await client.pairSetup(pin, pairMethod);
-        //get and save pairing data
         let pairingData = client.getLongTermData();
         client.close();
-        this.PairingDataDB.SaveData(service.id,pairingData);
+        this.PairingDataDB.SaveData(service.id, pairingData);
         //update msg
-        msg.payload.pairingData=pairingData
-        node.send([msg,pairingData,null]);
+        msg.payload.pairingData = pairingData
+        let pairingDataOutputMsg = {
+          msg: {
+            id: service.id,
+            pairingData: pairingData
+          }
+        }
+        node.send([msg, pairingDataOutputMsg, null]);
       } catch (e) {
         console.error(`${service.name}: `, e);
-        node.send([null,null, e]);
+        node.send([null, null, e]);
       }
-      node.send([msg,null,null]);
+      node.send([msg, null, null]);
     });
   }
 
@@ -47,7 +52,7 @@ function formatString(input) {
 
   // Check if the resulting string is of the expected length
   if (alphanumericString.length !== 8) {
-    throw new Error("Invalid string format. Expected format: XXX-XX-XXX" + " " + input );
+    throw new Error("Invalid string format. Expected format: XXX-XX-XXX" + " " + input);
   }
 
   // Format the string as XXX-XX-XXX

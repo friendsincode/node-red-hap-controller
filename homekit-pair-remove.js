@@ -1,3 +1,5 @@
+const { Console } = require('console');
+
 module.exports = function (RED) {
   function PairRemoveNode(config) {
     const { HttpClient, IPDiscovery } = require('hap-controller');
@@ -9,9 +11,10 @@ module.exports = function (RED) {
     // Handle incoming messages
     node.on('input', async function (msg) {
       try {
-        if (msg.payload.pairingData == null)
-          msg.payload.pairingData = this.PairingDataDB.GetData(msg.payload.id);
         let service = msg.payload;
+        if (msg.payload.pairingData == null){
+          service.pairingData = await this.PairingDataDB.GetData(msg.payload.id);
+        }
         //remove pairing data from device
         const client = new HttpClient(service.id, service.address, service.port, service.pairingData);
         await client.removePairing(client.pairingProtocol.iOSDevicePairingID);
