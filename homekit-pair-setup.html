@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    RED.nodes.registerType('homekit-pair-setup',{
+        category: 'HomeKit',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            pairingData: {value:"", type:"homekit-pairing-data"},
+        },
+        inputs:1,
+        outputs:3,
+        // icon: "file.png",
+        outputLabels: ["Output","Pairing Data","Error"],
+        label: function () {
+            return this.name || "Homekit-setup-node";
+        }
+    });
+</script>
+
+ <script type="text/html" data-template-name="homekit-pair-setup">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pairingData"><i class="fa fa-tag"></i> Pairing Data DB</label>
+        <input id="node-input-pairingData">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="homekit-pair-setup">
+    <p>A node that idenfies HomeKit devices</p>
+</script>
