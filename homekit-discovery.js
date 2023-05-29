@@ -1,19 +1,24 @@
 module.exports = function (RED) {
-  const { IPDiscovery } = require('hap-controller');
-  const discovery = new IPDiscovery();
+  const { IPDiscovery,BLEDiscovery } = require('hap-controller');
+  var discovery = null;
   function DiscoveryNode(config) {
     RED.nodes.createNode(this, config);
     var node = this;
-
+    this.discoveryMode = config.discoveryMode;
+    switch(this.discoveryMode){
+      case "IP":
+        discovery = new IPDiscovery();
+        break;
+      case "Bluetooth":
+        discovery = new BLEDiscovery();
+        break;
+    }
     discovery.on('serviceUp', (service) => {
-      msg={
-        payload:{
-        }
-      }
+      msg={};
       msg.payload=service;
-      msg.payload.sender=discovery;
+      //msg.sender = discovery;
+      msg.discoveryMode = this.discoveryMode;
       node.send(msg);
-      console.log('Found device:', service);
     });
 
     discovery.start();
@@ -44,5 +49,5 @@ module.exports = function (RED) {
   }
 
   // Register the node type
-  RED.nodes.registerType("ip-discovery", DiscoveryNode);
+  RED.nodes.registerType("homekit-discovery", DiscoveryNode);
 };

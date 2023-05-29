@@ -1,0 +1,35 @@
+<script type="text/javascript">
+    RED.nodes.registerType('homekit-discovery', {
+        category: 'HomeKit',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            discoveryMode: {
+                value: "IP"
+            }
+        },
+        inputs: 1,
+        outputs: 1,
+        // icon: "homekit-svgrepo-com.svg",
+        label: function () {
+            return this.name || "Home Kit Discovery";
+        },
+        oneditprepare: function() {
+            $("#node-input-discoveryMode").val(this.discoveryMode);
+        }
+    });
+</script>
+
+<script type="text/html" data-help-name="homekit-discovery">
+    <p>A simple node that converts the message payloads into all lower-case characters</p>
+</script>
+
+<script type="text/html" data-template-name="homekit-discovery">
+    <div class="form-row">
+        <label for="node-input-discoveryMode"><i class="fa fa-tag"></i> Discovery Mode:</label>
+        <select id="node-input-discoveryMode">
+            <option value="IP">IP</option>
+            <option value="Bluetooth">Bluetooth</option>
+        </select>
+    </div>
+</script>
