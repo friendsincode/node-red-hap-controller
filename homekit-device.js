@@ -7,19 +7,40 @@ module.exports = function (RED) {
     RED.nodes.createNode(this, config);
     var node = this;
     this.PairingDataDB = RED.nodes.getNode(config.pairingData);
-    this.status({fill:"red",shape:"dot",text:"Not Found"});
+    this.status({ fill: "red", shape: "dot", text: "Not Found" });
+
+    // var seconds = 15, the_interval = seconds * 1000;
+    // setInterval(async () => {
+    //   if (currentDevice) {
+    //     //Check Access
+    //     // pairingData = await this.PairingDataDB.GetData(currentDevice.id);
+
+    //   }
+    // }, the_interval);
 
     discovery.on('serviceUp', async (service) => {
       var devices = filterDevices(service);
       if (devices[0] != null) {
         currentDevice = devices[0];
-        this.status({fill:"green",shape:"dot",text:"Found"});
+        this.status({ fill: "orange", shape: "dot", text: "Found" });
+        if (currentDevice.availableToPair) {
+          this.status({ fill: "yellow", shape: "dot", text: "Ready to pair." });
+        }
+        console.log(service.id);
+        let ppdata = await this.PairingDataDB.GetData(currentDevice.id);
+        console.log(ppdata);
+        if (!currentDevice.availableToPair && !(await this.PairingDataDB.GetData(currentDevice.id))) {
+          this.status({ fill: "blue", shape: "dot", text: "Not paired\nDevice reset needed." });
+        }
+        if (!currentDevice.availableToPair && (await this.PairingDataDB.GetData(currentDevice.id))) {
+          this.status({ fill: "green", shape: "dot", text: "paired" });
+        }
       }
     });
     discovery.start();
     // Handle incoming messages with list of deivces in array.
     node.on('input', async function (msg) {
-      if(msg.payload == null)
+      if (msg.payload == null)
         msg.payload = {};
       msg.payload.HomeKitAccessory = currentDevice;
       msg.payload.pairingPin = config.pairingPin;

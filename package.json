@@ -1,9 +1,13 @@
 {
   "name": "@friendsincode/node-red-hap-controller",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "",
   "author": "friendsincode",
   "license": "MIT",
+  "bugs": {"url": "https://github.com/friendsincode/node-red-hap-controller/issues"},
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "node-red": {
     "version": ">=2.0.0",
     "nodes": {

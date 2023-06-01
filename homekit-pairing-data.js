@@ -12,8 +12,13 @@ module.exports = function(RED) {
             await db.push(`/${DeviceID}`,PairingData);
         };
         this.GetData = async function(DeviceID){
-            let data =  await db.getObjectDefault<Object>(`/${DeviceID}`,{});
-             return data;
+            try{
+                let data = await db.getData(`/${DeviceID}`);
+                return data;
+            }
+            catch(e){
+                return false;
+            }
         }
         this.RemoveData = async function(DeviceID){
             await db.delete(`/${DeviceID}`);
