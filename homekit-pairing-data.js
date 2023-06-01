@@ -12,7 +12,7 @@ module.exports = function(RED) {
             await db.push(`/${DeviceID}`,PairingData);
         };
         this.GetData = async function(DeviceID){
-            let data =  await db.getData(`/${DeviceID}`);
+            let data =  await db.getObjectDefault<Object>(`/${DeviceID}`,{});
              return data;
         }
         this.RemoveData = async function(DeviceID){

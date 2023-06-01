@@ -1,8 +1,8 @@
 {
-  "name": "@friendsincde/node-red-hap-controller",
-  "version": "0.0.1",
+  "name": "@friendsincode/node-red-hap-controller",
+  "version": "0.0.4",
   "description": "",
-  "author": "",
+  "author": "friendsincode",
   "license": "MIT",
   "node-red": {
     "version": ">=2.0.0",
@@ -12,15 +12,13 @@
       "list-homekit": "list-homekit.js",
       "homekit-identify": "homekit-identify.js",
       "homekit-pair": "homekit-pair.js",
-      "homekit-pair-remove": "homekit-pair-remove.js"
+      "homekit-pair-remove": "homekit-pair-remove.js",
+      "homekit-device": "homekit-device.js"
     }
   },
   "dependencies": {
     "hap-controller": "^0.9.3",
-    "level": "^8.0.0",
-    "node-json-db": "^2.2.0",
-    "node-red-dev": "^0.1.5",
-    "ws": "^8.13.0"
+    "node-json-db": "^2.2.0"
   },
   "keywords": [
     "node-red"

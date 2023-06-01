@@ -1,0 +1,38 @@
+<script type="text/javascript">
+  RED.nodes.registerType('homekit-characteristics-subscribe', {
+    category: 'HomeKit',
+    color: '#a6bbcf',
+    defaults: {
+      name: { value: "" },
+      pairingData: { value: "", type: "homekit-pairing-data" },
+    },
+    paletteLabel: "Subscribe",
+    inputs: 1,
+    outputs: 2,
+    outputLabels: ["stdout", "err"],
+    label: function () {
+      return this.name || "Subscribe";
+    },
+    oneditprepare: function () {
+      $("#node-input-example2").typedInput({
+        type: "json",
+        types: ["json"]
+      })
+    }
+  });
+</script>
+
+<script type="text/html" data-help-name="homekit-characteristics-subscribe">
+    <p>HomeKit Subscribe node that subscribes to a homekit characteristics</p>
+</script>
+
+<script type="text/html" data-template-name="homekit-characteristics-subscribe">
+  <div class="form-row">
+    <label for="node-input-pairingData"><i class="fa fa-tag"></i> Pairing Data DB</label>
+    <input id="node-input-pairingData">
+  </div>
+  <div class="form-row">
+      <label for="node-input-characteristics"><i class="fa fa-tag"></i> characteristics:</label>
+      <input type="text" id="node-input-characteristics">
+  </div>
+</script>

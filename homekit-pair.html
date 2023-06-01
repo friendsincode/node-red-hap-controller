@@ -5,8 +5,6 @@
     defaults: {
       name: { value: "" },
       pairingData: { value: "", type: "homekit-pairing-data" },
-      selectionCriteria: { value: `{ mac-address: "00:00:00:00:00:00", id: "", serial: "",name:"" }` },
-      pairingPin: { value: "000-00-000", validate: RED.validators.regex(/^\d{3}-\d{2}-\d{3}$/) }
     },
     inputs: 1,
     outputs: 3,
@@ -15,13 +13,7 @@
     label: function () {
       return this.name || "Pairing node";
     },
-    paletteLabel: "Setup Pairing",
-    oneditprepare: () => {
-      $("#node-input-selectionCriteria").typedInput({
-        type: "json",
-        types: ["json"]
-      });
-    }
+    paletteLabel: "Setup Pairing"
   });
 </script>
 
@@ -43,14 +35,6 @@
     <div class="form-row">
         <label for="node-input-pairingData"><i class="fa fa-tag"></i> Pairing Data DB</label>
         <input id="node-input-pairingData">
-    </div>
-    <div class="form-row">
-        <label for="node-input-selectionCriteria"><i class="fa fa-tag"></i> Selection Criteria</label>
-        <input type="text" id="node-input-selectionCriteria">
-    </div>
-    <div>
-        <label for="node-input-pairingPin"><i class="fa fa-tag"></i> Pairing Pin</label>
-        <input type="text" placeholder="xxx-xx-xxx" id="node-input-pairingPin">
     </div>
 </script>
 

@@ -1,33 +1,44 @@
 <script type="text/javascript">
-    RED.nodes.registerType('homekit-device',{
-        category: 'function',
-        color: '#a6bbcf',
-        defaults: {
-            name: {value:""},
-            pin: {value:""},
-            serial: {value:""}
-        },
-        inputs:1,
-        outputs:1,
-        icon: "file.png",
-        label: function() {
-            return this.name||"lower-case";
-        }
-    });
+  RED.nodes.registerType('homekit-device', {
+    category: 'HomeKit',
+    color: '#a6bbcf',
+    defaults: {
+      name: { value: "" },
+      pairingData: { value: "", type: "homekit-pairing-data" },
+      selectionCriteria: { value: `{ "mac-address": "", "id": "", "serial": "","name":"" }` },
+      pairingPin: { value: "000-00-000", validate: RED.validators.regex(/^\d{3}-\d{2}-\d{3}$/) }
+    },
+    inputs: 1,
+    outputs: 1,
+    // icon: "file.png",
+    label: function () {
+      return this.name || "Device Node";
+    },
+    oneditprepare: () => {
+      $("#node-input-selectionCriteria").typedInput({
+        type: "json",
+        types: ["json"]
+      });
+    }
+  });
 </script>
 
 <script type="text/html" data-template-name="homekit-device">
+  <div class="form-row">
+    <label for="node-input-pairingData"><i class="fa fa-tag"></i> Pairing Data DB</label>
+    <input id="node-input-pairingData">
+</div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-serial"><i class="fa fa-tag"></i> Serial Number</label>
-        <input type="text" id="node-input-serial" placeholder="Serial">
+        <label for="node-input-selectionCriteria"><i class="fa fa-tag"></i> Selection Criteria</label>
+        <input type="text" id="node-input-selectionCriteria">
     </div>
-    <div class="form-row">
-        <label for="node-input-pin"><i class="fa fa-tag"></i> Pin</label>
-        <input type="text" id="node-input-pin" placeholder="000-00-000">
+    <div>
+        <label for="node-input-pairingPin"><i class="fa fa-tag"></i> Pairing Pin</label>
+        <input type="text" placeholder="xxx-xx-xxx" id="node-input-pairingPin">
     </div>
 </script>
 
