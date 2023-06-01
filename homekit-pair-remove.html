@@ -1,18 +1,26 @@
 <script type="text/javascript">
-  RED.nodes.registerType('homekit-pair-remove',{
-      category: 'HomeKit',
-      color: '#a6bbcf',
-      defaults: {
-          name: {value:""},
-          pairingData: {value:"", type:"homekit-pairing-data"},
-      },
-      inputs:1,
-      outputs:2,
-      outputLabels: ["Output","Error"],
-      label: function () {
-          return this.name || "Home Kit Pair Remove";
-        },
-        paletteLabel:"Remove Pairing"
+  RED.nodes.registerType('homekit-pair-remove', {
+    category: 'HomeKit',
+    color: '#a6bbcf',
+    defaults: {
+      name: { value: "" },
+      selectionCriteria: { value: `{ "mac-address": "", "id": "", "serial": "","name": "" }` },
+      pairingData: { value: "", type: "homekit-pairing-data" },
+
+    },
+    inputs: 1,
+    outputs: 2,
+    outputLabels: ["Output", "Error"],
+    label: function () {
+      return this.name || "Home Kit Pair Remove";
+    },
+    paletteLabel: "Remove Pairing",
+    oneditprepare: () => {
+      $("#node-input-selectionCriteria").typedInput({
+        type: "json",
+        types: ["json"]
+      });
+    }
   });
 </script>
 
@@ -24,6 +32,10 @@
   <div class="form-row">
     <label for="node-input-pairingData"><i class="fa fa-tag"></i> Pairing Data DB</label>
     <input id="node-input-pairingData">
+</div>
+<div class="form-row">
+  <label for="node-input-selectionCriteria"><i class="fa fa-tag"></i> Selection Criteria</label>
+  <input type="text" id="node-input-selectionCriteria">
 </div>
 </script>
 

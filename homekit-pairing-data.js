@@ -5,8 +5,9 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,n);
         this.name = n.name;
         this.DBName = n.DBName;
+        var userDir = RED.settings.userDir;
 
-        const db = new  JsonDB(new Config(`./HomeKitPairingData/${this.DBName}`,true,true,'/'));
+        const db = new  JsonDB(new Config(`${userDir}/HomeKitPairingData/${this.DBName}`,true,true,'/'));
         this.SaveData = async function(DeviceID, PairingData) {
             await db.push(`/${DeviceID}`,PairingData);
         };

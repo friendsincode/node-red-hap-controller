@@ -1,0 +1,59 @@
+<script type="text/javascript">
+  RED.nodes.registerType('homekit-pair', {
+    category: 'HomeKit',
+    color: '#a6bbcf',
+    defaults: {
+      name: { value: "" },
+      pairingData: { value: "", type: "homekit-pairing-data" },
+      selectionCriteria: { value: `{ mac-address: "00:00:00:00:00:00", id: "", serial: "",name:"" }` },
+      pairingPin: { value: "000-00-000", validate: RED.validators.regex(/^\d{3}-\d{2}-\d{3}$/) }
+    },
+    inputs: 1,
+    outputs: 3,
+    // icon: "file.png",
+    outputLabels: ["Output", "Pairing Data", "Error"],
+    label: function () {
+      return this.name || "Pairing node";
+    },
+    paletteLabel: "Setup Pairing",
+    oneditprepare: () => {
+      $("#node-input-selectionCriteria").typedInput({
+        type: "json",
+        types: ["json"]
+      });
+    }
+  });
+</script>
+
+<style>
+  .invalid {
+    border: 2px solid red;
+  }
+
+  .valid {
+    border: 2px solid green;
+  }
+</style>
+
+<script type="text/html" data-template-name="homekit-pair">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pairingData"><i class="fa fa-tag"></i> Pairing Data DB</label>
+        <input id="node-input-pairingData">
+    </div>
+    <div class="form-row">
+        <label for="node-input-selectionCriteria"><i class="fa fa-tag"></i> Selection Criteria</label>
+        <input type="text" id="node-input-selectionCriteria">
+    </div>
+    <div>
+        <label for="node-input-pairingPin"><i class="fa fa-tag"></i> Pairing Pin</label>
+        <input type="text" placeholder="xxx-xx-xxx" id="node-input-pairingPin">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="homekit-pair">
+    <p>A node that idenfies HomeKit devices</p>
+</script>

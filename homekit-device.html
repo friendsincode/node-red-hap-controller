@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    RED.nodes.registerType('homekit-device',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            pin: {value:""},
+            serial: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"lower-case";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="homekit-device">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-serial"><i class="fa fa-tag"></i> Serial Number</label>
+        <input type="text" id="node-input-serial" placeholder="Serial">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pin"><i class="fa fa-tag"></i> Pin</label>
+        <input type="text" id="node-input-pin" placeholder="000-00-000">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="homekit-device">
+    <p>A simple node to represent a Homekit Device</p>
+</script>
