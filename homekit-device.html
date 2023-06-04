@@ -5,7 +5,7 @@
     defaults: {
       name: { value: "" },
       pairingData: { value: "", type: "homekit-pairing-data" },
-      selectionCriteria: { value: `{ "mac-address": "", "id": "", "serial": "","name":"" }` },
+      selectionCriteria: { value: `{ "id": "","name":"" }` },
       pairingPin: { value: "000-00-000", validate: RED.validators.regex(/^\d{3}-\d{2}-\d{3}$/) }
     },
     inputs: 1,
@@ -15,6 +15,62 @@
       return this.name || "Device Node";
     },
     oneditprepare: () => {
+      var discoveredDeivces = [];
+      $("#node-input-deviceDiscovery").append(new Option());
+      $("#node-input-deviceDiscovery").on("change", function (event) {
+        console.log(event);
+        var selectedOption = event.target.selectedOptions[0];
+        var selectedValue = selectedOption.value;
+        console.log(selectedValue);
+        $("#node-input-selectionCriteria").typedInput("value", selectedValue);
+      });
+
+
+      //websocket helper
+      var hostname = window.location.hostname;
+      var port = window.location.port;
+      var host = hostname + ':' + port;
+      var ws1 = new WebSocket(`ws:/${host}/test/123`);
+      ws1.onopen = (ev_con) => {
+        $('#deviceDiscoveryDiv').removeAttr('hidden');
+        ws1.onmessage = (event) => {
+          data = JSON.parse(event.data)
+          console.log(data);
+          switch (data.type) {
+            case "DeviceList":
+              console.log(data);
+              discoveredDeivces = data.devices;
+              $.each(discoveredDeivces, (i, item) => {
+                $("#node-input-deviceDiscovery").append(new Option(item.name, JSON.stringify({ id: item.id, name: item.name })))
+              });
+              break;
+            case "DeviceSingle":
+              //TODO: check to make sure deivce is not in list already
+              discoveredDeivces.push(data.device);
+              $("#node-input-deviceDiscovery").append(new Option(device.name, JSON.stringify({ id: device.id, name: device.name })))
+              break;
+          }
+
+        }
+        let txtValue = $("#node-input-selectionCriteria").val();
+        if (txtValue.length > 0) {
+          let data = JSON.parse(txtValue);
+          let optionValue = JSON.stringify({ id: data.id, name: data.name });
+          let optionText = data.name;
+          console.log(optionValue);
+          console.log(optionText);
+          // Check if the option already exists
+         if ($("#node-input-deviceDiscovery option[value='" + optionValue + "']").length === 0) {
+            $("#node-input-deviceDiscovery").append(new Option(optionText, optionValue));
+          }
+          $("#node-input-deviceDiscovery option:contains('" + optionText + "')").prop("selected", true);
+
+          // $("#node-input-deviceDiscovery").val(optionValue);
+        }
+        ws1.send(JSON.stringify({ type: "DiscoverDevices" }));
+      }
+
+      console.log("webs1")
       $("#node-input-selectionCriteria").typedInput({
         type: "json",
         types: ["json"]
@@ -24,10 +80,18 @@
 </script>
 
 <script type="text/html" data-template-name="homekit-device">
+
+  <div class="form-row" id="deviceDiscoveryDiv" hidden>
+    <label for="node-input-deviceDiscovery"><i class="fa fa-tag"></i> Devices:</label>
+    <select id="node-input-deviceDiscovery">
+
+    </select>
+  </div>
+
   <div class="form-row">
     <label for="node-input-pairingData"><i class="fa fa-tag"></i> Pairing Data DB</label>
     <input id="node-input-pairingData">
-</div>
+  </div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">

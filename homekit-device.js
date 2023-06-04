@@ -26,9 +26,7 @@ module.exports = function (RED) {
         if (currentDevice.availableToPair) {
           this.status({ fill: "yellow", shape: "dot", text: "Ready to pair." });
         }
-        console.log(service.id);
         let ppdata = await this.PairingDataDB.GetData(currentDevice.id);
-        console.log(ppdata);
         if (!currentDevice.availableToPair && !(await this.PairingDataDB.GetData(currentDevice.id))) {
           this.status({ fill: "blue", shape: "dot", text: "Not paired\nDevice reset needed." });
         }
@@ -62,7 +60,6 @@ module.exports = function (RED) {
       }
       return ldevices.filter(device => {
         return (
-          (selectionCriteria['mac-address'] ? device.id.toLowerCase() === selectionCriteria['mac-address'].toLowerCase() : true) &&
           (selectionCriteria.serial ? device.serial.toLowerCase() === selectionCriteria.serial.toLowerCase() : true) &&
           (selectionCriteria.name ? device.name.toLowerCase() === selectionCriteria.name.toLowerCase() : false)
         );

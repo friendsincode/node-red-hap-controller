@@ -4,7 +4,9 @@
   "description": "",
   "author": "friendsincode",
   "license": "MIT",
-  "bugs": {"url": "https://github.com/friendsincode/node-red-hap-controller/issues"},
+  "bugs": {
+    "url": "https://github.com/friendsincode/node-red-hap-controller/issues"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
@@ -17,12 +19,14 @@
       "homekit-identify": "homekit-identify.js",
       "homekit-pair": "homekit-pair.js",
       "homekit-pair-remove": "homekit-pair-remove.js",
-      "homekit-device": "homekit-device.js"
+      "homekit-device": "homekit-device.js",
+      "custom-websocket": "custom-websocket.js"
     }
   },
   "dependencies": {
     "hap-controller": "^0.9.3",
-    "node-json-db": "^2.2.0"
+    "node-json-db": "^2.2.0",
+    "ws": "^8.13.0"
   },
   "keywords": [
     "node-red"
