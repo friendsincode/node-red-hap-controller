@@ -4,17 +4,17 @@
     color: '#a6bbcf',
     defaults: {
       name: { value: "" },
-      pairingData: { value: "", type: "homekit-pairing-data" },
+      subscribeData: { value: "", },
     },
     paletteLabel: "Subscribe",
     inputs: 1,
-    outputs: 2,
+    outputs: 1,
     outputLabels: ["stdout", "err"],
     label: function () {
       return this.name || "Subscribe";
     },
     oneditprepare: function () {
-      $("#node-input-example2").typedInput({
+      $("#node-input-").typedInput({
         type: "json",
         types: ["json"]
       })
@@ -32,7 +32,7 @@
     <input id="node-input-pairingData">
   </div>
   <div class="form-row">
-      <label for="node-input-characteristics"><i class="fa fa-tag"></i> characteristics:</label>
-      <input type="text" id="node-input-characteristics">
+      <label for="node-input-subscribeData"><i class="fa fa-tag"></i> Subscribe data:</label>
+      <input type="text" id="node-input-subscribeData">
   </div>
 </script>

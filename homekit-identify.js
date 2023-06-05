@@ -5,22 +5,13 @@ module.exports = function (RED) {
         var node = this;
         this.discoveryMode = "";
         node.on('input', function (msg) {
-            this.discoveryMode = msg.discoveryMode;
-            switch (this.discoveryMode) {
-                case "IP":
-                    const ipClient = new HttpClient(msg.payload.id, msg.payload.address, msg.payload.port);
-                    ipClient.identify().then(() => {
-                        console.log("identify done");
-                    }).catch((e) => console.error(e));
-                    break;
-                case "Bluetooth":
-                    const bleClient = new GattClient(msg.payload.id, msg.payload.peripheral);
-                    bleClient.identify().then(() => {
-                        console.log("identify done");
-                    }).catch((e) => console.error(e));
-                    break;
+            let device = msg.payload.HomeKitAccessory;
+            if (device.availableToPair) {
+                const ipClient = new HttpClient(device.id, device.address, device.port);
+                ipClient.identify().then(() => {
+                    console.log("identify done");
+                }).catch((e) => console.error(e));
             }
-
             // msg.payload = msg.payload.toLowerCase();
             node.send(msg);
         });

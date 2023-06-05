@@ -2,7 +2,7 @@ const { Console } = require('console');
 
 module.exports = function (RED) {
   function PairRemoveNode(config) {
-    const { HttpClient, IPDiscovery } = require('hap-controller');
+    const { HttpClient } = require('hap-controller');
 
     RED.nodes.createNode(this, config);
     var node = this;
@@ -43,5 +43,5 @@ module.exports = function (RED) {
   }
 
   // Register the node type
-  RED.nodes.registerType("homekit-pair-remove", PairRemoveNode);
+  RED.nodes.registerType("homekit-unpair", PairRemoveNode);
 };

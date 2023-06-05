@@ -15,12 +15,12 @@
     "nodes": {
       "homekit-pairing-data": "homekit-pairing-data.js",
       "homekit-discovery": "homekit-discovery.js",
-      "list-homekit": "list-homekit.js",
       "homekit-identify": "homekit-identify.js",
       "homekit-pair": "homekit-pair.js",
-      "homekit-pair-remove": "homekit-pair-remove.js",
+      "homekit-unpair": "homekit-unpair.js",
       "homekit-device": "homekit-device.js",
-      "custom-websocket": "custom-websocket.js"
+      "custom-websocket": "custom-websocket.js",
+      "homekit-accessories-get": "homekit-accessories-get.js"
     }
   },
   "dependencies": {
